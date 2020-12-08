@@ -231,10 +231,46 @@ public class Problem3_3dCube implements MyRunnable{
 
     private void rotateFront(char[][][] m_cube3D){
         //Front랑 Back이 회전하면 Upper, Right, Down, Left가 영향받는다.
-
+        /*Left 복사
+        Upper의 2행 0,1,2열 -> Right의 0,1,2행 0열
+        Right의 0,1,2행 0열 -> Down의 0행 0,1,2열
+        Down의 0행 0,1,2열 -> Left의 0,1,2행 2열
+        Left의 0,1,2행 2열 -> Upper의 2행 0,1,2열
+        * */
+        char[] tmp = new char[3];
+        for(int row = 0 ; row < 3; row++){
+            tmp[row] = m_cube3D[CubeSide.R.ordinal()][row][0];
+        }
+        for(int i = 0; i < 3 ; i++){ // Upper To Right
+            m_cube3D[CubeSide.R.ordinal()][i][0] = m_cube3D[CubeSide.U.ordinal()][2][i];
+        }
+        for(int i = 0; i < 3 ; i++){ // Left to Upper
+            m_cube3D[CubeSide.U.ordinal()][2][i] = m_cube3D[CubeSide.L.ordinal()][i][2];
+        }
+        for(int i = 0; i < 3 ; i++){ // Down to Left
+            m_cube3D[CubeSide.L.ordinal()][i][2] = m_cube3D[CubeSide.D.ordinal()][0][i];
+        }
+        for(int i = 0; i < 3 ; i++){ // tmp(Right) to Down
+            m_cube3D[CubeSide.D.ordinal()][0][i] = tmp[i];
+        }
     }
     private void rotateFrontReverse(char[][][] m_cube3D){
-
+        char[] tmp = new char[3];
+        for(int row = 0 ; row < 3; row++){
+            tmp[row] = m_cube3D[CubeSide.R.ordinal()][row][0];
+        }
+        for(int i = 0; i < 3 ; i++){ // Down To Right
+            m_cube3D[CubeSide.R.ordinal()][i][0] = m_cube3D[CubeSide.D.ordinal()][0][i];
+        }
+        for(int i = 0; i < 3 ; i++){ // Left to Down
+            m_cube3D[CubeSide.D.ordinal()][0][i] = m_cube3D[CubeSide.L.ordinal()][i][2];
+        }
+        for(int i = 0; i < 3 ; i++){ // Upper to Left
+            m_cube3D[CubeSide.L.ordinal()][i][2] = m_cube3D[CubeSide.U.ordinal()][2][i];
+        }
+        for(int i = 0; i < 3 ; i++){ // tmp(Right) to Right
+            m_cube3D[CubeSide.U.ordinal()][2][i] = tmp[i];
+        }
     }
 
     private void rotateRight(char[][][] m_cube3D){
@@ -280,7 +316,7 @@ public class Problem3_3dCube implements MyRunnable{
 
     }
     private void rotateBackReverse(char[][][] m_cube3D){
-
+        
     }
 
     private void rotateDown(char[][][] m_cube3D){
