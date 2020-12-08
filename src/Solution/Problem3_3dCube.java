@@ -79,22 +79,34 @@ public class Problem3_3dCube implements MyRunnable{
             case "U\'" :
 
                 break;
-            case "R" :
-
-                break;
-            case "R\'" :
-
-                break;
             case "L" :
 
                 break;
             case "L\'" :
 
                 break;
+            case "F" :
+
+                break;
+            case "F\'" :
+
+                break;
+            case "R" :
+
+                break;
+            case "R\'" :
+
+                break;
             case "B" :
 
                 break;
             case "B\'" :
+
+                break;
+            case "D" :
+
+                break;
+            case "D\'" :
 
                 break;
         }
@@ -128,10 +140,45 @@ public class Problem3_3dCube implements MyRunnable{
             System.out.println();
         }
     }
-    private void rotateUpper(char[][] m_cube3D){//U
+    private void rotateUpper(char[][][] m_cube3D){
 
     }
-    private void rotateUpperReverse(char[][] m_cube3D){//U'
+    private void rotateUpperReverse(char[][][] m_cube3D){
+
+    }
+
+    private void rotateLeft(char[][][] m_cube3D){
+
+    }
+    private void rotateLeftReverse(char[][][] m_cube3D){
+
+    }
+
+    private void rotateFront(char[][][] m_cube3D){
+
+    }
+    private void rotateFrontReverse(char[][][] m_cube3D){
+
+    }
+
+    private void rotateRight(char[][][] m_cube3D){
+
+    }
+    private void rotateRightReverse(char[][][] m_cube3D){
+
+    }
+
+    private void rotateBack(char[][][] m_cube3D){
+
+    }
+    private void rotateBackReverse(char[][][] m_cube3D){
+
+    }
+
+    private void rotateDown(char[][][] m_cube3D){
+
+    }
+    private void rotateBackDown(char[][][] m_cube3D){
 
     }
 }
