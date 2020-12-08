@@ -140,29 +140,27 @@ public class Problem3_3dCube implements MyRunnable{
             System.out.println();
         }
     }
-    private void copySide(char[][] target, char[][] origin){
-        for(int i = 0 ; i < 3; i++){
-            System.arraycopy(origin[i], 0, target[i], 0, 3);
-        }
-    }
+
     private void rotateUpper(char[][][] m_cube3D){
-        char[][] tmpSide = new char[3][3];
-        copySide(tmpSide, m_cube3D[CubeSide.L.ordinal()]);
+        char[] tmp = new char[3];
+        System.arraycopy(m_cube3D[CubeSide.L.ordinal()][0], 0, tmp, 0, 3);
         for(int side = 1; side <= 3; side++){
             System.arraycopy(m_cube3D[side + 1][0], 0, m_cube3D[side][0], 0, 3);
         }
-        System.arraycopy(tmpSide[0], 0, m_cube3D[CubeSide.B.ordinal()][0], 0, 3);
+        System.arraycopy(tmp, 0, m_cube3D[CubeSide.B.ordinal()][0], 0, 3);
     }
     private void rotateUpperReverse(char[][][] m_cube3D){
-        char[][] tmpSide = new char[3][3];
-        copySide(tmpSide, m_cube3D[CubeSide.B.ordinal()]);
+        char[] tmp = new char[3];
+        System.arraycopy(m_cube3D[CubeSide.B.ordinal()][0], 0, tmp, 0, 3);
         for(int side = 4; side >= 2; side--){
             System.arraycopy(m_cube3D[side - 1][0], 0, m_cube3D[side][0], 0, 3);
         }
-        System.arraycopy(tmpSide[0], 0, m_cube3D[CubeSide.L.ordinal()][0], 0, 3);
+        System.arraycopy(tmp, 0, m_cube3D[CubeSide.L.ordinal()][0], 0, 3);
     }
 
     private void rotateLeft(char[][][] m_cube3D){
+        //Upper, Front, Down, Back이 영향받는다
+        //Upper를 복사하자
 
     }
     private void rotateLeftReverse(char[][][] m_cube3D){
