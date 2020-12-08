@@ -267,9 +267,19 @@ public class Problem3_3dCube implements MyRunnable{
     }
 
     private void rotateDown(char[][][] m_cube3D){
-
+        char[] tmp = new char[3];
+        System.arraycopy(m_cube3D[CubeSide.B.ordinal()][2], 0, tmp, 0, 3);
+        for(int side = 4; side >= 2; side--){
+            System.arraycopy(m_cube3D[side - 1][2], 0, m_cube3D[side][2], 0, 3);
+        }
+        System.arraycopy(tmp, 0, m_cube3D[CubeSide.L.ordinal()][2], 0, 3);
     }
     private void rotateDownReverse(char[][][] m_cube3D){
-
+        char[] tmp = new char[3];
+        System.arraycopy(m_cube3D[CubeSide.L.ordinal()][2], 0, tmp, 0, 3);
+        for(int side = 1; side <= 3; side++){
+            System.arraycopy(m_cube3D[side + 1][2], 0, m_cube3D[side][2], 0, 3);
+        }
+        System.arraycopy(tmp, 0, m_cube3D[CubeSide.B.ordinal()][2], 0, 3);
     }
 }
