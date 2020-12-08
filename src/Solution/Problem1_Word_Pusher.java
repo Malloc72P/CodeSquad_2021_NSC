@@ -3,11 +3,12 @@ package Solution;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Problem1_Word_Pusher {
+public class Problem1_Word_Pusher implements MyRunnable {
     public void runProblem(){
         Scanner sc = new Scanner(System.in);
         String _inputCmd;
 
+        System.out.print("> ");
         _inputCmd = sc.nextLine();//사용자의 입력을 받는다.
 
         String _word;//단어를 입력받을 변수
