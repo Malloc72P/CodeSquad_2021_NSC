@@ -141,7 +141,7 @@ public class Problem3_3dCube implements MyRunnable{
         }
     }
     private void rotateUpper(char[][][] m_cube3D){
-
+        
     }
     private void rotateUpperReverse(char[][][] m_cube3D){
 
@@ -180,5 +180,54 @@ public class Problem3_3dCube implements MyRunnable{
     }
     private void rotateDownReverse(char[][][] m_cube3D){
 
+    }
+    
+    private void pushUpperToLeft(char[][][] m_cube3D, int side){//U
+        char tmp = m_cube3D[side][0][0];
+        m_cube3D[side][0][0] = m_cube3D[side][0][1];
+        m_cube3D[side][0][1] = m_cube3D[side][0][2];
+        m_cube3D[side][0][2] = tmp;
+    }
+    private void pushUpperToRight(char[][][] m_cube3D, int side){//U'
+        char tmp = m_cube3D[side][0][2];
+        m_cube3D[side][0][2] = m_cube3D[side][0][1];
+        m_cube3D[side][0][1] = m_cube3D[side][0][0];
+        m_cube3D[side][0][0] = tmp;
+    }
+    private void pushRightToTop(char[][][] m_cube3D, int side){//R
+        char tmp = m_cube3D[side][0][2];
+        m_cube3D[side][0][2] = m_cube3D[side][1][2];
+        m_cube3D[side][1][2] = m_cube3D[side][2][2];
+        m_cube3D[side][2][2] = tmp;
+    }
+    private void pushRightToBottom(char[][][] m_cube3D, int side){//R'
+        char tmp = m_cube3D[side][2][2];
+        m_cube3D[side][2][2] = m_cube3D[side][1][2];
+        m_cube3D[side][1][2] = m_cube3D[side][0][2];
+        m_cube3D[side][0][2] = tmp;
+    }
+    private void pushLeftToBottom(char[][][] m_cube3D, int side){//L
+        char tmp = m_cube3D[side][2][0];
+        m_cube3D[side][2][0] = m_cube3D[side][1][0];
+        m_cube3D[side][1][0] = m_cube3D[side][0][0];
+        m_cube3D[side][0][0] = tmp;
+    }
+    private void pushLeftToTop(char[][][] m_cube3D, int side){//L'
+        char tmp = m_cube3D[side][0][0];
+        m_cube3D[side][0][0] = m_cube3D[side][1][0];
+        m_cube3D[side][1][0] = m_cube3D[side][2][0];
+        m_cube3D[side][2][0] = tmp;
+    }
+    private void pushBottomToRight(char[][][] m_cube3D, int side){//B
+        char tmp = m_cube3D[side][2][2];
+        m_cube3D[side][2][2] = m_cube3D[side][2][1];
+        m_cube3D[side][2][1] = m_cube3D[side][2][0];
+        m_cube3D[side][2][0] = tmp;
+    }
+    private void pushBottomToLeft(char[][][] m_cube3D, int side){//B'
+        char tmp = m_cube3D[side][2][0];
+        m_cube3D[side][2][0] = m_cube3D[side][2][1];
+        m_cube3D[side][2][1] = m_cube3D[side][2][2];
+        m_cube3D[side][2][2] = tmp;
     }
 }
