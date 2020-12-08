@@ -222,6 +222,7 @@ public class Problem3_3dCube implements MyRunnable{
     }
 
     private void rotateFront(char[][][] m_cube3D){
+        //Front랑 Back이 회전하면 Upper, Right, Down, Left가 영향받는다.
 
     }
     private void rotateFrontReverse(char[][][] m_cube3D){
@@ -229,34 +230,10 @@ public class Problem3_3dCube implements MyRunnable{
     }
 
     private void rotateRight(char[][][] m_cube3D){
-        char[] tmp = new char[3];
-        for(int row = 0; row < 3; row++){
-            tmp[row] = m_cube3D[CubeSide.U.ordinal()][row][2];
-        }
-        int[] tgts = { CubeSide.U.ordinal(), CubeSide.F.ordinal(), CubeSide.D.ordinal(), CubeSide.B.ordinal() };//tgts = targets
-        for(int i = 0 ; i < 3; i++){
-            for(int row = 0; row < 3; row++){
-                m_cube3D[tgts[i]][row][2] = m_cube3D[tgts[i + 1]][row][2];
-            }
-        }
-        for(int row = 0; row < 3; row++){
-            m_cube3D[CubeSide.B.ordinal()][row][2] = tmp[row];
-        }
+
     }
     private void rotateRightReverse(char[][][] m_cube3D){
-        char[] tmp = new char[3];
-        for(int row = 0; row < 3; row++){
-            tmp[row] = m_cube3D[CubeSide.B.ordinal()][row][2];
-        }
-        int[] tgts = { CubeSide.U.ordinal(), CubeSide.F.ordinal(), CubeSide.D.ordinal(), CubeSide.B.ordinal() };//tgts = targets
-        for(int i = 3 ; i >= 1; i--){
-            for(int row = 0; row < 3; row++){
-                m_cube3D[tgts[i]][row][2] = m_cube3D[tgts[i - 1]][row][2];
-            }
-        }
-        for(int row = 0; row < 3; row++){
-            m_cube3D[CubeSide.U.ordinal()][row][2] = tmp[row];
-        }
+
     }
 
     private void rotateBack(char[][][] m_cube3D){
@@ -267,19 +244,9 @@ public class Problem3_3dCube implements MyRunnable{
     }
 
     private void rotateDown(char[][][] m_cube3D){
-        char[] tmp = new char[3];
-        System.arraycopy(m_cube3D[CubeSide.B.ordinal()][2], 0, tmp, 0, 3);
-        for(int side = 4; side >= 2; side--){
-            System.arraycopy(m_cube3D[side - 1][2], 0, m_cube3D[side][2], 0, 3);
-        }
-        System.arraycopy(tmp, 0, m_cube3D[CubeSide.L.ordinal()][2], 0, 3);
+
     }
     private void rotateDownReverse(char[][][] m_cube3D){
-        char[] tmp = new char[3];
-        System.arraycopy(m_cube3D[CubeSide.L.ordinal()][2], 0, tmp, 0, 3);
-        for(int side = 1; side <= 3; side++){
-            System.arraycopy(m_cube3D[side + 1][2], 0, m_cube3D[side][2], 0, 3);
-        }
-        System.arraycopy(tmp, 0, m_cube3D[CubeSide.B.ordinal()][2], 0, 3);
+
     }
 }
