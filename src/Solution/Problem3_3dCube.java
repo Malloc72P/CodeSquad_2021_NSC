@@ -229,10 +229,34 @@ public class Problem3_3dCube implements MyRunnable{
     }
 
     private void rotateRight(char[][][] m_cube3D){
-
+        char[] tmp = new char[3];
+        for(int row = 0; row < 3; row++){
+            tmp[row] = m_cube3D[CubeSide.U.ordinal()][row][2];
+        }
+        int[] tgts = { CubeSide.U.ordinal(), CubeSide.F.ordinal(), CubeSide.D.ordinal(), CubeSide.B.ordinal() };//tgts = targets
+        for(int i = 0 ; i < 3; i++){
+            for(int row = 0; row < 3; row++){
+                m_cube3D[tgts[i]][row][2] = m_cube3D[tgts[i + 1]][row][2];
+            }
+        }
+        for(int row = 0; row < 3; row++){
+            m_cube3D[CubeSide.B.ordinal()][row][2] = tmp[row];
+        }
     }
     private void rotateRightReverse(char[][][] m_cube3D){
-
+        char[] tmp = new char[3];
+        for(int row = 0; row < 3; row++){
+            tmp[row] = m_cube3D[CubeSide.B.ordinal()][row][2];
+        }
+        int[] tgts = { CubeSide.U.ordinal(), CubeSide.F.ordinal(), CubeSide.D.ordinal(), CubeSide.B.ordinal() };//tgts = targets
+        for(int i = 3 ; i >= 1; i--){
+            for(int row = 0; row < 3; row++){
+                m_cube3D[tgts[i]][row][2] = m_cube3D[tgts[i - 1]][row][2];
+            }
+        }
+        for(int row = 0; row < 3; row++){
+            m_cube3D[CubeSide.U.ordinal()][row][2] = tmp[row];
+        }
     }
 
     private void rotateBack(char[][][] m_cube3D){
