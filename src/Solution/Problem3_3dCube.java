@@ -3,7 +3,7 @@ package Solution;
 import java.util.Scanner;
 
 enum CubeSide{
-    U,F,R,B,L,D,
+    U,L,F,R,B,D,
 }
 
 public class Problem3_3dCube implements MyRunnable{
@@ -16,22 +16,22 @@ public class Problem3_3dCube implements MyRunnable{
                         {'B', 'B', 'B'},
                         {'B', 'B', 'B'}
                 },
-                {//F
+                {//L
                         {'W', 'W', 'W'},
                         {'W', 'W', 'W'},
                         {'W', 'W', 'W'}
                 },
-                {//R
+                {//F
                         {'O', 'O', 'O'},
                         {'O', 'O', 'O'},
                         {'O', 'O', 'O'}
                 },
-                {//B
+                {//R
                         {'G', 'G', 'G'},
                         {'G', 'G', 'G'},
                         {'G', 'G', 'G'}
                 },
-                {//L
+                {//B
                         {'Y', 'Y', 'Y'},
                         {'Y', 'Y', 'Y'},
                         {'Y', 'Y', 'Y'}
@@ -80,31 +80,31 @@ public class Problem3_3dCube implements MyRunnable{
                 rotateUpperReverse(m_cube3D);
                 break;
             case "L" :
-                rotateLeft();
+                rotateLeft(m_cube3D);
                 break;
             case "L\'" :
                 rotateLeftReverse(m_cube3D);
                 break;
             case "F" :
-                rotateFront();
+                rotateFront(m_cube3D);
                 break;
             case "F\'" :
                 rotateFrontReverse(m_cube3D);
                 break;
             case "R" :
-                rotateRight();
+                rotateRight(m_cube3D);
                 break;
             case "R\'" :
                 rotateRightReverse(m_cube3D);
                 break;
             case "B" :
-                rotateBack();
+                rotateBack(m_cube3D);
                 break;
             case "B\'" :
                 rotateBackReverse(m_cube3D);
                 break;
             case "D" :
-                rotateDown();
+                rotateDown(m_cube3D);
                 break;
             case "D\'" :
                 rotateDownReverse(m_cube3D);
@@ -140,13 +140,26 @@ public class Problem3_3dCube implements MyRunnable{
             System.out.println();
         }
     }
-    private void rotateUpper(char[][][] m_cube3D){
-        for(int side = 1; side <= 4; side++){
-            pushUpperToRight();
+    private void copySide(char[][] target, char[][] origin){
+        for(int i = 0 ; i < 3; i++){
+            System.arraycopy(origin[i], 0, target[i], 0, 3);
         }
     }
+    private void rotateUpper(char[][][] m_cube3D){
+        char[][] tmpSide = new char[3][3];
+        copySide(tmpSide, m_cube3D[CubeSide.L.ordinal()]);
+        for(int side = 1; side <= 3; side++){
+            System.arraycopy(m_cube3D[side + 1][0], 0, m_cube3D[side][0], 0, 3);
+        }
+        System.arraycopy(tmpSide[0], 0, m_cube3D[CubeSide.B.ordinal()][0], 0, 3);
+    }
     private void rotateUpperReverse(char[][][] m_cube3D){
-
+        char[][] tmpSide = new char[3][3];
+        copySide(tmpSide, m_cube3D[CubeSide.B.ordinal()]);
+        for(int side = 4; side >= 2; side--){
+            System.arraycopy(m_cube3D[side - 1][0], 0, m_cube3D[side][0], 0, 3);
+        }
+        System.arraycopy(tmpSide[0], 0, m_cube3D[CubeSide.L.ordinal()][0], 0, 3);
     }
 
     private void rotateLeft(char[][][] m_cube3D){
