@@ -1,5 +1,4 @@
 package Solution;
-
 import java.util.Scanner;
 
 enum CubeSide{
@@ -42,6 +41,7 @@ public class Problem3_3dCube implements MyRunnable{
     */
     @Override
     public void runProblem() {
+        int move_counter = 0;
         char[][][] m_cube3D ={
                 {//U
                         {'W', 'W', 'W'},
@@ -79,6 +79,7 @@ public class Problem3_3dCube implements MyRunnable{
         Scanner sc = new Scanner(System.in);
         String inputedCmd;
         advPrintCube(m_cube3D);
+        long start_t = System.currentTimeMillis();
         while(true){
             System.out.print("CUBE> ");
             inputedCmd = sc.nextLine().toUpperCase();
@@ -98,49 +99,64 @@ public class Problem3_3dCube implements MyRunnable{
                     }
                 }
                 System.out.println(currentCmd);
-                processCmd(currentCmd, m_cube3D);//현재 명령어 처리
+                if(processCmd(currentCmd, m_cube3D))//현재 명령어 처리
+                {
+                    move_counter++;
+                }
                 advPrintCube(m_cube3D);
             }
         }
+        long end_t = System.currentTimeMillis();
+        printExecTime(start_t, end_t);
+        System.out.println("조작갯수 : " + move_counter);
+        System.out.println("이용해주셔서 감사합니다. 뚜뚜뚜.");
     }
-    private void processCmd(String currentCmd, char[][][] m_cube3D){
+    private void printExecTime(long start_t, long end_t){
+        long exec_second = (end_t - start_t) / 1000;
+        long exec_minute = exec_second / 60;
+        exec_second -= exec_minute * 60;
+
+        System.out.printf("경과시간: %02d:%02d", exec_minute, exec_second);
+    }
+    private boolean processCmd(String currentCmd, char[][][] m_cube3D){
         switch (currentCmd){
             case "U" :
                 rotateUpper(m_cube3D);
-                break;
+                return true;
             case "U\'" :
                 rotateUpperReverse(m_cube3D);
-                break;
+                return true;
             case "L" :
                 rotateLeft(m_cube3D);
-                break;
+                return true;
             case "L\'" :
                 rotateLeftReverse(m_cube3D);
-                break;
+                return true;
             case "F" :
                 rotateFront(m_cube3D);
-                break;
+                return true;
             case "F\'" :
                 rotateFrontReverse(m_cube3D);
-                break;
+                return true;
             case "R" :
                 rotateRight(m_cube3D);
-                break;
+                return true;
             case "R\'" :
                 rotateRightReverse(m_cube3D);
-                break;
+                return true;
             case "B" :
                 rotateBack(m_cube3D);
-                break;
+                return true;
             case "B\'" :
                 rotateBackReverse(m_cube3D);
-                break;
+                return true;
             case "D" :
                 rotateDown(m_cube3D);
-                break;
+                return true;
             case "D\'" :
                 rotateDownReverse(m_cube3D);
-                break;
+                return true;
+            default: return false;
         }
 
     }
