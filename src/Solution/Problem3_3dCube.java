@@ -1,4 +1,6 @@
 package Solution;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 enum CubeSide{
@@ -6,7 +8,7 @@ enum CubeSide{
 }
 
 public class Problem3_3dCube implements MyRunnable{
-
+    final private String DO_SHUFFLE = "S";
     /*
                     {//U
                         {'B', 'B', 'B'},
@@ -118,6 +120,12 @@ public class Problem3_3dCube implements MyRunnable{
 
         System.out.printf("경과시간: %02d:%02d", exec_minute, exec_second);
     }
+    private void printMenu(){
+        System.out.println("_________________________________");
+        System.out.printf("S : 큐브 섞기");
+        System.out.printf("q or Q : 프로그램 종료");
+        System.out.println("_________________________________");
+    }
     private boolean processCmd(String currentCmd, char[][][] m_cube3D){
         switch (currentCmd){
             case "U" :
@@ -156,11 +164,79 @@ public class Problem3_3dCube implements MyRunnable{
             case "D\'" :
                 rotateDownReverse(m_cube3D);
                 return true;
+            case "S" :
+                doShuFFle(m_cube3D);
+                return false;
             default: return false;
         }
 
     }
-
+    private void doShuFFle(char[][][] m_cube3D){
+        int act = 0;
+        ArrayList<String> shuffleSequence = new ArrayList<String>();
+        long seed = System.currentTimeMillis();
+        Random rand = new Random(seed);
+        int number_of_shuffle = rand.nextInt(5);
+        number_of_shuffle += 5;
+        for (int i = 0; i < number_of_shuffle; i++){
+            act = rand.nextInt(13);
+            switch (act){
+                case 0 :
+                    shuffleSequence.add("U");
+                    rotateUpper(m_cube3D);
+                    break;
+                case 1 :
+                    shuffleSequence.add("U\'");
+                    rotateUpperReverse(m_cube3D);
+                    break;
+                case 2 :
+                    shuffleSequence.add("L");
+                    rotateLeft(m_cube3D);
+                    break;
+                case 3 :
+                    shuffleSequence.add("L\'");
+                    rotateLeftReverse(m_cube3D);
+                    break;
+                case 4 :
+                    shuffleSequence.add("F");
+                    rotateFront(m_cube3D);
+                    break;
+                case 5 :
+                    shuffleSequence.add("F\'");
+                    rotateFrontReverse(m_cube3D);
+                    break;
+                case 6 :
+                    shuffleSequence.add("R");
+                    rotateRight(m_cube3D);
+                    break;
+                case 7 :
+                    shuffleSequence.add("R\'");
+                    rotateRightReverse(m_cube3D);
+                    break;
+                case 8 :
+                    shuffleSequence.add("B");
+                    rotateBack(m_cube3D);
+                    break;
+                case 9 :
+                    shuffleSequence.add("B\'");
+                    rotateBackReverse(m_cube3D);
+                    break;
+                case 10 :
+                    shuffleSequence.add("D");
+                    rotateDown(m_cube3D);
+                    break;
+                case 11 :
+                    shuffleSequence.add("D\'");
+                    rotateDownReverse(m_cube3D);
+                    break;
+            }
+        }
+        System.out.println("다음 순서로 셔플되었습니다.");
+        for (int i = 0 ; i < shuffleSequence.size(); i++){
+            System.out.print(shuffleSequence.get(i) + ", ");
+        }
+        System.out.println();
+    }
     private void advPrintCube(char[][][] m_cube3D){
         for(int i = 0 ; i < 3; i++){
             System.out.printf("\t\t\t");
