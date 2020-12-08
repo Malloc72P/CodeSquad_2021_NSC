@@ -8,10 +8,8 @@ enum CubeSide{
 
 public class Problem3_3dCube implements MyRunnable{
 
-    @Override
-    public void runProblem() {
-        char[][][] m_cube3D ={
-                {//U
+    /*
+                    {//U
                         {'B', 'B', 'B'},
                         {'B', 'B', 'B'},
                         {'B', 'B', 'B'}
@@ -40,6 +38,40 @@ public class Problem3_3dCube implements MyRunnable{
                         {'R', 'R', 'R'},
                         {'R', 'R', 'R'},
                         {'R', 'R', 'R'}
+                }
+    */
+    @Override
+    public void runProblem() {
+        char[][][] m_cube3D ={
+                {//U
+                        {'W', 'W', 'W'},
+                        {'W', 'W', 'W'},
+                        {'W', 'W', 'W'}
+                },
+                {//L
+                        {'O', 'O', 'O'},
+                        {'O', 'O', 'O'},
+                        {'O', 'O', 'O'}
+                },
+                {//F
+                        {'G', 'G', 'G'},
+                        {'G', 'G', 'G'},
+                        {'G', 'G', 'G'}
+                },
+                {//R
+                        {'R', 'R', 'R'},
+                        {'R', 'R', 'R'},
+                        {'R', 'R', 'R'}
+                },
+                {//B
+                        {'B', 'B', 'B'},
+                        {'B', 'B', 'B'},
+                        {'B', 'B', 'B'}
+                },
+                {//D
+                        {'Y', 'Y', 'Y'},
+                        {'Y', 'Y', 'Y'},
+                        {'Y', 'Y', 'Y'}
                 }
 
         };
@@ -159,12 +191,34 @@ public class Problem3_3dCube implements MyRunnable{
     }
 
     private void rotateLeft(char[][][] m_cube3D){
-        //Upper, Front, Down, Back이 영향받는다
-        //Upper를 복사하자
-
+        char[] tmp = new char[3];
+        for(int row = 0; row < 3; row++){
+            tmp[row] = m_cube3D[CubeSide.B.ordinal()][row][0];
+        }
+        int[] tgts = { CubeSide.U.ordinal(), CubeSide.F.ordinal(), CubeSide.D.ordinal(), CubeSide.B.ordinal() };//tgts = targets
+        for(int i = 3 ; i >= 1; i--){
+            for(int row = 0; row < 3; row++){
+                m_cube3D[tgts[i]][row][0] = m_cube3D[tgts[i - 1]][row][0];
+            }
+        }
+        for(int row = 0; row < 3; row++){
+            m_cube3D[CubeSide.U.ordinal()][row][0] = tmp[row];
+        }
     }
     private void rotateLeftReverse(char[][][] m_cube3D){
-
+        char[] tmp = new char[3];
+        for(int row = 0; row < 3; row++){
+            tmp[row] = m_cube3D[CubeSide.U.ordinal()][row][0];
+        }
+        int[] tgts = { CubeSide.U.ordinal(), CubeSide.F.ordinal(), CubeSide.D.ordinal(), CubeSide.B.ordinal() };//tgts = targets
+        for(int i = 0 ; i < 3; i++){
+            for(int row = 0; row < 3; row++){
+                m_cube3D[tgts[i]][row][0] = m_cube3D[tgts[i + 1]][row][0];
+            }
+        }
+        for(int row = 0; row < 3; row++){
+            m_cube3D[CubeSide.B.ordinal()][row][0] = tmp[row];
+        }
     }
 
     private void rotateFront(char[][][] m_cube3D){
