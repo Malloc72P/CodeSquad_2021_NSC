@@ -74,40 +74,40 @@ public class Problem3_3dCube implements MyRunnable{
     private void processCmd(String currentCmd, char[][][] m_cube3D){
         switch (currentCmd){
             case "U" :
-
+                rotateUpper(m_cube3D);
                 break;
             case "U\'" :
-
+                rotateUpperReverse(m_cube3D);
                 break;
             case "L" :
-
+                rotateLeft();
                 break;
             case "L\'" :
-
+                rotateLeftReverse(m_cube3D);
                 break;
             case "F" :
-
+                rotateFront();
                 break;
             case "F\'" :
-
+                rotateFrontReverse(m_cube3D);
                 break;
             case "R" :
-
+                rotateRight();
                 break;
             case "R\'" :
-
+                rotateRightReverse(m_cube3D);
                 break;
             case "B" :
-
+                rotateBack();
                 break;
             case "B\'" :
-
+                rotateBackReverse(m_cube3D);
                 break;
             case "D" :
-
+                rotateDown();
                 break;
             case "D\'" :
-
+                rotateDownReverse(m_cube3D);
                 break;
         }
 
@@ -178,7 +178,7 @@ public class Problem3_3dCube implements MyRunnable{
     private void rotateDown(char[][][] m_cube3D){
 
     }
-    private void rotateBackDown(char[][][] m_cube3D){
+    private void rotateDownReverse(char[][][] m_cube3D){
 
     }
 }
