@@ -115,6 +115,7 @@ public class Problem3_3dCube implements MyRunnable{
         advPrintCube(m_cube3D);
         long start_t = System.currentTimeMillis();
         while(true){
+            printMenu();
             System.out.print("CUBE> ");
             inputedCmd = sc.nextLine().toUpperCase();
             if(inputedCmd.equals("Q")){
@@ -150,12 +151,12 @@ public class Problem3_3dCube implements MyRunnable{
         long exec_minute = exec_second / 60;
         exec_second -= exec_minute * 60;
 
-        System.out.printf("경과시간: %02d:%02d", exec_minute, exec_second);
+        System.out.printf("경과시간: %02d:%02d \n", exec_minute, exec_second);
     }
     private void printMenu(){
         System.out.println("_________________________________");
-        System.out.printf("S : 큐브 섞기");
-        System.out.printf("q or Q : 프로그램 종료");
+        System.out.println("S : 큐브 섞기");
+        System.out.println("q or Q : 프로그램 종료");
         System.out.println("_________________________________");
     }
     private boolean processCmd(String currentCmd, char[][][] m_cube3D){
