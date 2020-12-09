@@ -36,3 +36,44 @@
     4) 1.1.2에서 얼마나 밀어야 하는지 구했는데, 이 값만큼 반복적으로 밀어준다.
     5) 다 끝나면 ArrayList의 처음부터 끝까지 출력한다.
 </pre>
+
+
+
+## 2단계 : 평면 큐브 구현하기
+#### 2.1 큐브 구현하기
+<Pre>
+    <code>// 큐브는 2차원 char배열로 정의했다.
+    char[][] m_cube2D = {
+                    {'R', 'R', 'W'},
+                    {'G', 'C', 'W'},
+                    {'G', 'B', 'B'}
+            };
+    </code>
+</Pre>
+#### 2.2 명령어 파싱하기
+<Pre>
+    1) 사용자로부터 문자열 명령어를 입력받는다(inputedCmd)
+    2) for( int i = 0 ; i < inputedCmd.length(); i++) 루프 안에서 명령어를 해석한다
+    3) 일단 한 글자를 String currentCmd에 저장한다. 
+        만약 다음 인덱스(i+1)이 문자열 길이랑 같지 않은 경우,
+        3-1) i+1번째 문자가 ' 인지 검사한다. 만약 '이면,
+                currentCmd에 '를 합친다
+    4) currentCmd를 처리한다.
+                
+    <code></code>
+</Pre>
+#### 2.3 큐브 밀어주는 메서드 구현하기
+<pre>
+    1) processCmd메서드에 2.2에서 구한 currentCmd를 패러미터로 넘긴다
+    2) processCmd메서드에서 currentCmd에 대응하는 큐브 밀기 메서드를 호출한다
+       Ex) currentCmd가 "U" 이면 pushUpperToLeft 메서드를 호출해서 큐브를 민다
+    3) 큐브는 다음과 같은 방식으로 밀어준다
+    <code>
+    private void pushUpperToLeft(char[][] m_cube2D){//U
+            char tmp = m_cube2D[0][0]; //임시 변수에 덮어써질 값을 저장해둔다.
+            m_cube2D[0][0] = m_cube2D[0][1];//덮어쓰기
+            m_cube2D[0][1] = m_cube2D[0][2];//덮어쓰기
+            m_cube2D[0][2] = tmp;//저장했던 값을 넣는다.
+    }//이렇게하면 맨 윗줄을 왼쪽으로 한칸 밀게 된다
+    </code>
+</pre>
