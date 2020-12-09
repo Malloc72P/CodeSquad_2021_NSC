@@ -22,20 +22,23 @@ public class Problem2_2dCube implements MyRunnable{
                 break;
             }
 
-            //명령 파싱
-            for (int i = 0 ; i < inputedCmd.length(); i++){
-                String currentCmd = Character.toString(inputedCmd.charAt(i));
-                if(i + 1 != inputedCmd.length()){
-                    //다음 문자가 존재한다면,
-                    if(inputedCmd.charAt(i+1) == '\''){//다음문자가 따옴표면, 현재명령에 붙인다
-                        currentCmd += '\'';
-                        i++;//인덱스 한칸 더 전진
-                    }
+            parseCmd(inputedCmd, m_cube2D);
+        }
+    }
+    private void parseCmd(String inputedCmd, char[][] m_cube2D){
+        //명령 파싱
+        for (int i = 0 ; i < inputedCmd.length(); i++){
+            String currentCmd = Character.toString(inputedCmd.charAt(i));
+            if(i + 1 != inputedCmd.length()){
+                //다음 문자가 존재한다면,
+                if(inputedCmd.charAt(i+1) == '\''){//다음문자가 따옴표면, 현재명령에 붙인다
+                    currentCmd += '\'';
+                    i++;//인덱스 한칸 더 전진
                 }
-                System.out.println(currentCmd);
-                processCmd(currentCmd, m_cube2D);//현재 명령어 처리
-                printCube(m_cube2D);
             }
+            System.out.println(currentCmd);
+            processCmd(currentCmd, m_cube2D);//현재 명령어 처리
+            printCube(m_cube2D);
         }
     }
     private void processCmd(String currentCmd, char[][] m_cube2D){
