@@ -75,7 +75,8 @@ public class Problem3_3dCube implements MyRunnable{
     * */
     @Override
     public void runProblem() {
-        int move_counter = 0;
+        int moveCounter = 0;
+        boolean isFirstTime = true;
         char[][][] m_cube3D ={
                 {//U
                         {'W', 'W', 'W'},
@@ -115,6 +116,15 @@ public class Problem3_3dCube implements MyRunnable{
         advPrintCube(m_cube3D);
         long start_t = System.currentTimeMillis();
         while(true){
+            if(!isFirstTime){
+                //첫 시도가 아니면 모든면을 다 맞췄는지 검사한다.
+                if(testCompletion(m_cube3D)){
+                    long end_t = System.currentTimeMillis();
+                    System.out.println("축하해요 모든 면을 맞추셨어요!");
+                    printGoodbyeMsg(start_t, end_t, moveCounter);
+                    return;
+                }
+            }
             printMenu();
             System.out.print("CUBE> ");
             inputedCmd = sc.nextLine().toUpperCase();
@@ -136,28 +146,43 @@ public class Problem3_3dCube implements MyRunnable{
                 System.out.println(currentCmd);
                 if(processCmd(currentCmd, m_cube3D))//현재 명령어 처리
                 {
-                    move_counter++;
+                    moveCounter++;
+                    if(isFirstTime)
+                        isFirstTime = false;
                 }
                 advPrintCube(m_cube3D);
             }
         }
         long end_t = System.currentTimeMillis();
-        printExecTime(start_t, end_t);
-        System.out.println("조작갯수 : " + move_counter);
-        System.out.println("이용해주셔서 감사합니다. 뚜뚜뚜.");
+        printGoodbyeMsg(start_t, end_t, moveCounter);
+        
     }
-    private void printExecTime(long start_t, long end_t){
+    private void printGoodbyeMsg(long start_t, long end_t, int moveCounter){
         long exec_second = (end_t - start_t) / 1000;
         long exec_minute = exec_second / 60;
         exec_second -= exec_minute * 60;
 
         System.out.printf("경과시간: %02d:%02d \n", exec_minute, exec_second);
+        System.out.println("조작갯수 : " + moveCounter);
+        System.out.println("이용해주셔서 감사합니다. 뚜뚜뚜.");
     }
     private void printMenu(){
         System.out.println("_________________________________");
         System.out.println("S : 큐브 섞기");
         System.out.println("q or Q : 프로그램 종료");
         System.out.println("_________________________________");
+    }
+    private boolean testCompletion(char[][][] m_cube3D){
+        for (int side = 0; side < 6; side++) {
+            char currentColor = m_cube3D[side][0][0];
+            for (int i = 0 ; i < 3; i++){
+                for (int j = 0; j < 3; j++) {
+                    if (m_cube3D[side][i][j] != currentColor)
+                        return false;
+                }
+            }
+        }
+        return true;
     }
     private boolean processCmd(String currentCmd, char[][][] m_cube3D){
         switch (currentCmd){
