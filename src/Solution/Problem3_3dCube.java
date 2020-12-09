@@ -8,7 +8,6 @@ enum CubeSide{
 }
 
 public class Problem3_3dCube implements MyRunnable{
-    final private String DO_SHUFFLE = "S";
     /*
                     {//U
                         {'B', 'B', 'B'},
@@ -237,7 +236,7 @@ public class Problem3_3dCube implements MyRunnable{
         int number_of_shuffle = rand.nextInt(5);
         number_of_shuffle += 5;
         for (int i = 0; i < number_of_shuffle; i++){
-            act = rand.nextInt(13);
+            act = rand.nextInt(12);
             switch (act){
                 case 0 :
                     shuffleSequence.add("U");

@@ -4,7 +4,9 @@
 * IDE       :   IntelliJ IDEA 2020.2.1
 * 사용언어    :   JAVA  
 * JAVA 버전  :   java version "11.0.4" 2019-07-16 LTS
-
+## 개발자 정보
+* 이름        : 나승철
+* 이메일       : scra1028@gmail.com
 ## 1단계 : 단어 밀어내기 구현하기
 #### 1.1 split으로 사용자 입력을 쪼개기
 <Pre>
@@ -76,4 +78,95 @@
             m_cube2D[0][2] = tmp;//저장했던 값을 넣는다.
     }//이렇게하면 맨 윗줄을 왼쪽으로 한칸 밀게 된다
     </code>
+</pre>
+
+
+## 3단계 : 루빅스 큐브 구현하기
+#### 3.1 큐브 구현하기
+<Pre>
+    <code>// 큐브는 3차원 char배열로 정의했다.
+    char[][][] m_cube3D ={
+            {//U
+                    {'W', 'W', 'W'},
+                    {'W', 'W', 'W'},
+                    {'W', 'W', 'W'}
+            },
+            {//L
+                    {'O', 'O', 'O'},
+            ... // 다른 면도 이거랑 같은 방식으로 정의함
+    </code>
+</Pre>
+#### 3.2 큐브의 면을 Enum으로 정의
+<pre>
+    1) m_cube3D[3][i][j]처럼 접근하면 어떤 면에 접근하는지 햇갈릴 수 있어서 enum을 사용했다
+    <code>
+    enum CubeSide{
+        U,L,F,R,B,D,
+    }
+    ...
+    2) 아래처럼 접근할 수 있으니, 어떤 면을 참조하는지 쉽게 알 수 있다.
+    tmp[row] = m_cube3D[CubeSide.R.ordinal()][row][0]
+    </code>
+</pre>
+#### 3.3 명령어 처리
+* 명령어처리는 Step-2의 방식과 동일하게 처리한다
+#### 3.4 큐브 회전
+<pre>
+    1) 3차원 큐브를 회전하게 되면, 면에서 다른 면으로 색이 이동하게 된다.
+    2) 문제는 Back이다. 이쪽으로 넘어가거나 넘어오는경우 색 배치 순서가 뒤바뀐다.
+    3) 아니면 색이 배치되는 열이 바뀔 수 있다. 이 점을 유념하면서, 특정 회전을 했을 때 어떤 면이 
+        어떤 면으로 이동하는지를 정의하고 코드를 작성하였다.
+    4) 회전된 면 자체도 업데이트해줘야 한다. R을 회전했다면, 오른쪽 면도 한바퀴 회전한거니까, 
+       인접 면만 신경쓰면 안되고, 회전된 면도 신경써줘야 한다.
+   <code>
+    private void rotateLeft(char[][][] m_cube3D){
+           char[] tmp = new char[3];
+           for(int row = 0; row < 3; row++){//덮어써질 색상을 기록해둔다
+               tmp[row] = m_cube3D[CubeSide.D.ordinal()][row][0];
+           }
+           //면의 색상이 어떤 면으로 이동될지를 생각한다.
+           //front to down
+           //upper to front
+           //back to upper
+           //down(tmp) to back
+           for(int row = 0; row < 3; row++){//앞면에서 아랫면으로 대응하는 칸의 색을 이동시킨다
+               m_cube3D[CubeSide.D.ordinal()][row][0] = m_cube3D[CubeSide.F.ordinal()][row][0];
+           }
+           for(int row = 0; row < 3; row++){
+               m_cube3D[CubeSide.F.ordinal()][row][0] = m_cube3D[CubeSide.U.ordinal()][row][0];
+           }
+           for(int row = 0; row < 3; row++){//바로 이 경우가 문제다. Back에서 색이 옮겨가면 순서가 뒤바뀐다
+                //그래서 인덱스를 2 - row로 주었다. 0, 1, 2가 2, 1, 0이 되니까 거꾸로 집어넣게 된다.
+               m_cube3D[CubeSide.U.ordinal()][2 - row][0] = m_cube3D[CubeSide.B.ordinal()][row][2];
+           }
+           for(int row = 0; row < 3; row++){
+               m_cube3D[CubeSide.B.ordinal()][2 - row][2] = tmp[row];
+           }
+   
+           rotateSide(m_cube3D, CubeSide.L.ordinal());//회전하는 면도 업데이트해준다.
+           //rotateSide메서드는 면을 회전했을 때의 결과로 업데이트시켜준다.
+       }
+   </code>
+</pre>
+#### 3.5 추가기능 구현 ( 시간측정, 셔플, 게임 클리어 검사)
+##### 3.5.1 추가기능 1 - 시간측정
+<pre>
+    1) System.currentTimeMillis()를 이용해서 시작시간과 종료시간을 구한다.
+    2) 종료시간 - 시작시간 = 걸린시간
+    3) 걸린시간을 계산해서 몇분 몇초가 걸렸는지 구하고, printf를 이용해서 요구사항대로 출력한다 
+</pre>
+##### 3.5.2 추가기능 2 - 셔플
+<pre>
+    1) Random클래스를 이용해서 난수를 생성한다. 시드생성은 System.currentTimeMillis()을 이용한다.
+    2) 0 ~ 4 사이의 난수값을 구하고, 5를 더한다. 이 결과값을 셔플횟수로 사용한다
+    3) 0 ~ 11 사이의 난수값을 구하고, 이걸로 12개의 큐브회전 메서드 중 하나를 랜덤하게 호출한다.
+    4) 이 과정이 끝나면 큐브는 섞여있다.  
+</pre>
+##### 3.5.2 추가기능 3 - 게임 클리어 검사
+<pre>
+    1) 게임 초기상태는 이미 맞춰져 있는 상태이다. 따라서 처음 시작시엔 클리어 검사를 하지 않는다.
+    2) 큐브를 한번이라도 회전시키면, 그 이후부터 클리어 검사를 한다.
+    3) 클리어 검사는 간단하게, 모든 면을 순회하면서, 그 면의 모든 셀이 같은 색인지 검사한다.
+    4) 하나라도 다르면 false를 리턴한다. 검사를 다 통과해야 true가 리턴된다
+    5) 클리어 했다면, 축하메세지를 출력하고 걸린시간, 회전횟수등을 출력하고 프로그램을 종료시킨다.
 </pre>
