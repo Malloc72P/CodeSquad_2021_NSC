@@ -83,15 +83,8 @@ public class Problem3_3dCube implements MyRunnable{
         advPrintCube(m_cube3D);
         long start_t = System.currentTimeMillis();
         while(true){
-            if(!isFirstTime){
-                //첫 시도가 아니면 모든면을 다 맞췄는지 검사한다.
-                if(testCompletion(m_cube3D)){
-                    long end_t = System.currentTimeMillis();
-                    System.out.println("축하해요 모든 면을 맞추셨어요!");
-                    printGoodbyeMsg(start_t, end_t, moveCounter);
-                    return;
-                }
-            }
+            if(testCompletion(m_cube3D, isFirstTime, start_t, moveCounter))
+                return;
             printMenu();
             System.out.print("CUBE> ");
             inputedCmd = sc.nextLine().toUpperCase();
@@ -99,32 +92,36 @@ public class Problem3_3dCube implements MyRunnable{
                 System.out.println("Bye~");
                 break;
             }
-
-            //명령 파싱
-            for (int i = 0 ; i < inputedCmd.length(); i++){
-                String currentCmd = Character.toString(inputedCmd.charAt(i));
-                if(i + 1 != inputedCmd.length()){
-                    //다음 문자가 존재한다면,
-                    if(inputedCmd.charAt(i+1) == '\''){//다음문자가 따옴표면, 현재명령에 붙인다
-                        currentCmd += '\'';
-                        i++;//인덱스 한칸 더 전진
-                    }
+            int res = parseCmd(inputedCmd, m_cube3D);
+            moveCounter += res;
+            if(isFirstTime  && moveCounter > 0)
+                isFirstTime = false;
+            advPrintCube(m_cube3D);
+        }
+        printGoodbyeMsg(start_t, moveCounter);
+    }
+    private int parseCmd(String inputedCmd, char[][][] m_cube3D){
+        //명령 파싱
+        int moveCounter = 0;
+        for (int i = 0 ; i < inputedCmd.length(); i++){
+            String currentCmd = Character.toString(inputedCmd.charAt(i));
+            if(i + 1 != inputedCmd.length()){
+                //다음 문자가 존재한다면,
+                if(inputedCmd.charAt(i+1) == '\''){//다음문자가 따옴표면, 현재명령에 붙인다
+                    currentCmd += '\'';
+                    i++;//인덱스 한칸 더 전진
                 }
-                System.out.println(currentCmd);
-                if(processCmd(currentCmd, m_cube3D))//현재 명령어 처리
-                {
-                    moveCounter++;
-                    if(isFirstTime)
-                        isFirstTime = false;
-                }
-                advPrintCube(m_cube3D);
+            }
+            System.out.println(currentCmd);
+            if(processCmd(currentCmd, m_cube3D))//현재 명령어 처리
+            {
+                moveCounter++;
             }
         }
-        long end_t = System.currentTimeMillis();
-        printGoodbyeMsg(start_t, end_t, moveCounter);
-        
+        return moveCounter;
     }
-    private void printGoodbyeMsg(long start_t, long end_t, int moveCounter){
+    private void printGoodbyeMsg(long start_t, int moveCounter){
+        long end_t = System.currentTimeMillis();
         long exec_second = (end_t - start_t) / 1000;
         long exec_minute = exec_second / 60;
         exec_second -= exec_minute * 60;
@@ -139,14 +136,25 @@ public class Problem3_3dCube implements MyRunnable{
         System.out.println("q or Q : 프로그램 종료");
         System.out.println("_________________________________");
     }
-    private boolean testCompletion(char[][][] m_cube3D){
+    private boolean testCompletion(char[][][] m_cube3D, boolean isFirstTime, long start_t, int moveCounter){
+        if(isFirstTime){
+            return false;
+        }
+        //첫 시도가 아니면 모든면을 다 맞췄는지 검사한다.
         for (int side = 0; side < 6; side++) {
-            char currentColor = m_cube3D[side][0][0];
-            for (int i = 0 ; i < 3; i++){
-                for (int j = 0; j < 3; j++) {
-                    if (m_cube3D[side][i][j] != currentColor)
-                        return false;
-                }
+            if(!testCompletionOfSide(m_cube3D[side]))
+                return false;
+        }
+        System.out.println("축하해요 모든 면을 맞추셨어요!");
+        printGoodbyeMsg(start_t, moveCounter);
+        return true;
+    }
+    private boolean testCompletionOfSide(char[][] side){
+        char currentColor = side[0][0];
+        for (int i = 0 ; i < 3; i++){
+            for (int j = 0; j < 3; j++) {
+                if (side[i][j] != currentColor)
+                    return false;
             }
         }
         return true;
